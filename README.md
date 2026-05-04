@@ -1,16 +1,16 @@
-# Umi Monorepo Micro Frontend Starter
+# Umi Monorepo 微前端初始化模板
 
-This repository initializes a monorepo micro frontend baseline with:
+本仓库用于初始化一套 Monorepo 微前端基础工程，包含：
 
-- Umi + React (main shell + 2 subapps)
-- Qiankun (master/slave integration)
-- Rsbuild (strict build pipeline)
-- Ant Design (`antd`)
-- Zustand (local state in each app)
-- React Query (`@tanstack/react-query`) for server state
-- Shared event bus (`packages/shared`)
+- Umi + React（1 个主应用 + 2 个子应用）
+- Qiankun（主子应用集成）
+- Rsbuild（严格构建链路）
+- Ant Design（`antd`）
+- Zustand（各应用本地状态管理）
+- React Query（`@tanstack/react-query`，用于服务端状态）
+- 共享事件总线（`packages/shared`）
 
-## Workspace Structure
+## 工作区目录结构
 
 ```text
 apps/
@@ -22,79 +22,79 @@ packages/
   shared/
 ```
 
-## Port Allocation
+## 端口分配
 
-- `main-shell`: `7000`
-- `subapp-one`: `7101`
-- `subapp-two`: `7102`
+- `main-shell`：`7000`
+- `subapp-one`：`7101`
+- `subapp-two`：`7102`
 
-## Install
+## 安装依赖
 
 ```bash
 corepack pnpm install
 ```
 
-## Development
+## 开发模式
 
-- Start Umi dev for all apps (recommended for qiankun integration):
+- 启动所有应用的 Umi 开发模式（推荐，用于 qiankun 联调）：
 
 ```bash
 corepack pnpm dev
 ```
 
-- Start Rsbuild dev for all apps:
+- 启动所有应用的 Rsbuild 开发模式：
 
 ```bash
 corepack pnpm dev:rsbuild
 ```
 
-## Build
+## 构建
 
-- Umi build for all apps:
+- 使用 Umi 构建所有应用：
 
 ```bash
 corepack pnpm build:umi
 ```
 
-- Strict Rsbuild pipeline (shared package first, then all apps):
+- 使用严格 Rsbuild 构建链路（先构建 shared 包，再构建所有应用）：
 
 ```bash
 corepack pnpm build
 ```
 
-## Lint
+## 代码检查
 
 ```bash
 corepack pnpm lint
 ```
 
-## State and Communication Boundaries
+## 状态与通信边界约定
 
-- Subapp business state lives in local `zustand` stores.
-- Cross-app shared state should be session-level metadata only.
-- API data is managed by `react-query`, not the event bus.
-- Event bus passes events, not large business payloads.
+- 子应用业务状态仅放在各自的 `zustand` store 内。
+- 跨应用共享状态仅建议放会话级元信息（如用户、主题、语言）。
+- 接口数据统一由 `react-query` 管理，不放入事件总线。
+- 事件总线只传递事件，不传大体量业务对象，降低耦合。
 
-## Shared Event Bus
+## 共享事件总线
 
-`packages/shared/src/event-bus.ts` defines a typed event bus based on `mitt`.
+`packages/shared/src/event-bus.ts` 中基于 `mitt` 定义了类型化事件总线。
 
-Current shared events:
+当前已定义事件：
 
 - `USER_UPDATED`
 - `THEME_CHANGED`
 - `LANG_CHANGED`
 
-## Verification Checklist
+## 验证清单
 
-- Main shell can load `subapp-one` and `subapp-two`.
-- Each subapp can run independently.
-- `antd` styles are available in shell and subapps.
-- Zustand state works independently inside each subapp.
-- React Query hooks run correctly in shell and subapps.
-- Shared event bus can propagate theme changes.
+- 主应用可加载 `subapp-one` 与 `subapp-two`。
+- 两个子应用均可独立启动访问。
+- 主子应用中的 `antd` 样式显示正常。
+- 各子应用内 `zustand` 状态工作正常且互不干扰。
+- 主子应用中的 React Query 请求逻辑可正常运行。
+- 主题切换事件可通过 shared event bus 在主子应用间传递。
 
-## Notes
+## 说明
 
-- Some transitive peer dependency warnings come from the Umi plugin ecosystem and do not block build/run in this starter.
-- Rsbuild may print Node warning about module type for `rsbuild.config.ts`; this does not block builds.
+- 某些三方依赖的 peer warning 来自 Umi 插件生态，通常不影响本模板运行和构建。
+- Rsbuild 可能提示 `rsbuild.config.ts` 的 module type 警告，该提示不影响构建结果。
