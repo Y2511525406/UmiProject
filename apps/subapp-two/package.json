@@ -1,0 +1,33 @@
+{
+  "name": "@apps/subapp-two",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "cross-env PORT=7102 umi dev",
+    "build": "umi build",
+    "lint": "umi lint",
+    "clean": "rimraf dist .umi .umi-production",
+    "dev:rsbuild": "rsbuild dev --config rsbuild.config.ts --port 7102",
+    "build:rsbuild": "rsbuild build --config rsbuild.config.ts"
+  },
+  "dependencies": {
+    "@repo/shared": "workspace:*",
+    "@tanstack/react-query": "^5.59.0",
+    "antd": "^5.22.2",
+    "qiankun": "^2.10.16",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "umi": "^4.4.5",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@umijs/plugins": "^4.6.48",
+    "@rsbuild/core": "^1.1.6",
+    "@rsbuild/plugin-react": "^1.0.7",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "cross-env": "^7.0.3",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  }
+}
